@@ -1,0 +1,92 @@
+{
+	"info": {
+		"_postman_id": "641c7d50-fd4e-4883-bc55-adb3f47b803b",
+		"name": "AutoScript",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": " Create a hero (Autotest)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "3f99d3ed-8ac7-4c10-89bb-9f122f1440a6",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "9ac3f2f6-b6f9-45a5-a146-74bde049a1bd",
+						"exec": [
+							"pm.test(\"Статус код 200\", function () // Проверяем статус код, который должен быть равен 200",
+							"{ ",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var jsonData = pm.response.json(); //Парсим тело ответа в формате JSON",
+							"",
+							"pm.test(\"Дата рождения героя \" + jsonData.birthDate, function () { // Проверяем дату рождения созданного героя",
+							"    pm.expect(jsonData.birthDate).to.eql(\"2019-12-31\");",
+							"});",
+							"",
+							"pm.test(\"Имя героя \" + jsonData.fullName, function () { // Проверяем имя созданного героя",
+							"    pm.expect(jsonData.fullName).to.eql(\"Point\");",
+							"});",
+							"",
+							"pm.test(\"Основной навык \" + jsonData.mainSkill, function () { // Проверяем основной скилл героя",
+							"    pm.expect(jsonData.mainSkill).to.eql(\"Cut throat\");",
+							"});",
+							"",
+							"pm.test(\"Время ответа от сервера менее 500 мс\", function () { //Проверяем время ответа от сервера (Менее 500 мс)",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"birthDate\": \"2019-12-31\",\r\n  \"city\": \"Taganrog\",\r\n  \"fullName\": \"Point\",\r\n  \"gender\": \"M\",\r\n  \"mainSkill\": \"Cut throat\",\r\n  \"phone\": \"+1234567890\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://superhero.qa-test.csssr.com/superheroes",
+					"protocol": "https",
+					"host": [
+						"superhero",
+						"qa-test",
+						"csssr",
+						"com"
+					],
+					"path": [
+						"superheroes"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
